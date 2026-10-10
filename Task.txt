@@ -137,14 +137,20 @@ A. Formula for Judges:
    - C_fix = RM 77 (weighted average planned fix cost)
    - C_false = RM 15 (technician inspection cost for false alarm)
 
-B. Worked Example (50-Machine CNC Factory):
+B. Worked Example & Actual Model Verification (50-Machine CNC Factory):
    - Scenario: 50 CNC machines, 15 breakdowns/month baseline
-   - Model Performance: Recall = 80%, Precision = 75%
-   1. Failures Caught Early: 15 * 80% = 12 failures
-   2. Gross Repair Savings: 12 * (RM 936 - RM 77) = 12 * RM 859 = RM 10,308
-   3. False Alarms Generated: 12 * [(1 - 0.75) / 0.75] = 4 false alarms
-   4. Cost of False Alarms: 4 * RM 15 = RM 60
-   5. Net Monthly Savings: RM 10,308 - RM 60 = RM 10,248 / month (~RM 123,000 / year)
+   - Actual Model Performance (on Test Set via train.py):
+     * Recall:    85.29% (Catches 58 of 68 failures)
+     * Precision: 63.04%
+     * ROC-AUC:   0.9852
+   1. Breakdowns Prevented: 15 * 85.29% = 12.8 machines/month
+   2. Missed Breakdowns: 15 - 12.8 = 2.2 machines/month
+   3. Gross Repair & Downtime Savings: 12.8 * RM 859 = RM 10,990.15 / month
+   4. False Alarms Generated: 12.8 * [(1 - 0.6304) / 0.6304] = 7.5 inspections/month
+   5. Penalty for False Alarms: 7.5 * RM 15 = RM 112.50 / month
+   -----------------------------------------------------------------------------
+   >>> NET MONTHLY SAVINGS: RM 10,877.65 / month
+   >>> NET ANNUAL SAVINGS:  RM 130,531.76 / year
 
 
 --------------------------------------------------------------------------------
@@ -162,3 +168,4 @@ Ranking Priority Score = Probability of Failure * (Cost if fails - Cost of plann
 
 False Alarm Cost (C_false): RM 15
 ================================================================================
+
