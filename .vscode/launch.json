@@ -2,13 +2,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Debug train.py",
+            "name": "Python Debugger: Forest_train.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/train.py",
+            "program": "${workspaceFolder}/Forest_train.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
-            "python": "${workspaceFolder}/.venv/bin/python",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Forest_train.py (Standard)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Forest_train.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
             "justMyCode": true
         },
         {
@@ -18,9 +26,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
-            "python": "${workspaceFolder}/.venv/bin/python",
             "justMyCode": true
         }
     ]
 }
-

@@ -1,0 +1,92 @@
+================================================================================
+TRACK 1 PREDICTIVE AI: MORNING WORK-ORDER PIPELINE
+Theme: 'Predict early, decide better.'
+================================================================================
+[*] Loaded dataset: 10,000 rows from 'data/ai4i+2020+predictive+maintenance+dataset/ai4i2020.csv'
+[*] Train set: 8000 samples (271 failures)
+[*] Test set:  2000 samples (68 failures)
+
+--- Training Step 1: Overall Failure Detector (RandomForest) ---
+--- Training Step 2: Multi-Label Failure Categorizers (TWF, HDF, PWF, OSF) ---
+
+================================================================================
+MODEL PERFORMANCE EVALUATION (TEST SET)
+================================================================================
+Overall Failure Detector (Decision Threshold = 0.39):
+  - Recall:    82.35%  (Catches 56 of 68 true failures)
+  - Precision: 94.92% (True alarms: 56, False alarms: 3)
+  - F1-Score:  0.8819
+  - ROC-AUC:   0.9855
+
+Confusion Matrix:
+  [TN=1929  FP=3   ]
+  [FN=12    TP=56  ]
+
+Individual Failure Type Diagnoses:
+  [TWF - Tool Wear Failure]: Recall = 0.0%, Precision = 0.0%
+  [HDF - Heat Dissipation Failure]: Recall = 96.6%, Precision = 93.3%
+  [PWF - Power Failure]: Recall = 100.0%, Precision = 100.0%
+  [OSF - Overstrain Failure]: Recall = 100.0%, Precision = 100.0%
+
+[*] Successfully generated morning work-order list saved to 'morning_work_order.csv'
+
+================================================================================
+RAZIF'S MORNING WORK-ORDER LIST (TOP URGENT MACHINES TO INSPECT)
+================================================================================
+              Product ID Type Failure_Prob Expected_Risk_RM      Diagnosed_Issues                                                                                                                                              Recommended_Action
+Priority_Rank                                                                                                                                                                                                                                    
+1                 L53677    L        97.3%      RM 1,372.83             OSF (99%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+2                 L56844    L        96.0%      RM 1,282.32             OSF (97%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+3                 L47429    L        92.7%      RM 1,249.29             OSF (94%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+4                 L53258    L        98.7%      RM 1,248.89             OSF (96%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+5                 M19202    M        98.0%      RM 1,210.30  HDF (74%), PWF (97%)  Check coolant fluid levels/nozzles; clear metal chips blocking radiator fans. | Check spindle drive belts for slip, verify supply voltage, and check bearings.
+6                 L47428    L        96.2%      RM 1,196.66             OSF (91%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+7                 L56594    L        96.0%      RM 1,172.51             OSF (90%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+8                 L56196    L        89.4%      RM 1,163.79             OSF (89%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+9                 L48106    L        89.6%      RM 1,156.63             OSF (88%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+10                L57010    L        93.3%      RM 1,151.27             OSF (88%)                                                                          Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+
+--- Detailed Technician Briefing (Top 3 Machines) ---
+
+[Rank #1] Machine: L53677 (Type L)
+  - Failure Risk: 97.3% | Potential Loss: RM 1,372.83
+  - Diagnosis:    OSF (99%)
+  - Why:          High mechanical strain: Heavy cutting torque on a worn tool is causing severe spindle overload.
+  - Action:       Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+
+[Rank #2] Machine: L56844 (Type L)
+  - Failure Risk: 96.0% | Potential Loss: RM 1,282.32
+  - Diagnosis:    OSF (97%)
+  - Why:          High mechanical strain: Heavy cutting torque on a worn tool is causing severe spindle overload.
+  - Action:       Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+
+[Rank #3] Machine: L47429 (Type L)
+  - Failure Risk: 92.7% | Potential Loss: RM 1,249.29
+  - Diagnosis:    OSF (94%)
+  - Why:          High mechanical strain: Heavy cutting torque on a worn tool is causing severe spindle overload.
+  - Action:       Replace cutting insert immediately and verify programmed feed rates before heavy cuts.
+
+================================================================================
+BUSINESS IMPACT & FINANCIAL PROOF (FOR PRESENTATION SLIDES)
+================================================================================
+Operational Scenario: 50 CNC Milling Machines in Factory
+Baseline Unscheduled Breakdowns: 15 incidents/month (without AI)
+
+Model Performance on Test Set:
+  - Recall:    82.35%
+  - Precision: 94.92%
+
+Monthly Operational Outcome:
+  - Breakdowns Prevented:       12.4 / 15 machines
+  - Missed Breakdowns:          2.6 machines
+  - False Alarm Inspections:    0.7 inspections/month
+
+Financial Proof (Malaysian Ringgit):
+  - Gross Repair & Downtime Saved: RM 10,611.18 / month
+  - Penalty for False Alarms:      -RM 9.93 / month
+  -------------------------------------------------------------
+  >>> NET MONTHLY SAVINGS:         RM 10,601.25 / month
+  >>> NET ANNUAL SAVINGS:          RM 127,215.00 / year
+================================================================================
+
+[*] All pipeline results have been successfully saved to 'Forest_result.txt'
