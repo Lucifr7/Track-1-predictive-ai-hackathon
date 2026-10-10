@@ -51,10 +51,6 @@ def score(actual, predicted):
     }
 
 
-print("=== The split ===")
-print(f"Training rows: {len(X_train)} ({y_train.sum()} failures)")
-print(f"Test rows:     {len(X_test)} ({y_test.sum()} failures)")
-
 # Main model: "will this machine fail?"
 model = DecisionTreeClassifier(max_depth=5, random_state=42)
 model.fit(X_train, y_train)
@@ -78,7 +74,25 @@ for code, meaning in failure_types.items():
 
     results[meaning] = score(test[code], type_model.predict(X_test))
 
-print()
-print("=== Results on the test set ===")
-print(f"Accuracy of the main model: {accuracy_score(y_test, predictions) * 100:.1f}%")
-print(pd.DataFrame(results).T)
+# Chance of each failure type, for every machine in the test set
+risk = pd.DataFrame(index=test.index)
+
+for code, meaning in failure_types.items():
+    risk[meaning] = type_models[code].predict_proba(X_test)[:, 1]
+
+
+# Everything below only runs with "python train.py",
+# not when another script imports the models from this file
+if __name__ == "__main__":
+    print("=== The split ===")
+    print(f"Training rows: {len(X_train)} ({y_train.sum()} failures)")
+    print(f"Test rows:     {len(X_test)} ({y_test.sum()} failures)")
+
+    print()
+    print("=== Results on the test set ===")
+    print(f"Accuracy of the main model: {accuracy_score(y_test, predictions) * 100:.1f}%")
+    print(pd.DataFrame(results).T)
+
+    print()
+    print("=== Top 5 machines at risk of overheating ===")
+    print(risk.sort_values("Overheating", ascending=False).head(5).round(2))

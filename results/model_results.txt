@@ -1,0 +1,20 @@
+=== The split ===
+Training rows: 8000 (271 failures)
+Test rows:     2000 (68 failures)
+
+=== Results on the test set ===
+Accuracy of the main model: 99.2%
+             Real cases  Caught  Missed  False alarms  Recall %  Precision %
+Any failure          68      56      12             3        82           95
+Tool wear            10       1       9             1        10           50
+Overheating          29      28       1             2        97           93
+Power                13      13       0             0       100          100
+Overstrain           16      16       0             0       100          100
+
+=== Top 5 machines at risk of overheating ===
+      Tool wear  Overheating  Power  Overstrain
+4727       0.09          1.0    0.0         0.0
+4851       0.00          1.0    0.0         0.0
+4342       0.00          1.0    1.0         0.0
+4661       0.00          1.0    0.0         0.0
+4258       0.00          1.0    0.0         0.0

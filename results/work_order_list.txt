@@ -1,0 +1,31 @@
+======================================================================
+MORNING WORK-ORDER LIST (morning 2)
+50 machines scanned, 4 need attention.
+You have time for about 3 checks. Start at the top.
+======================================================================
+
+#1  Machine 9665    Money at risk: RM 1,300
+    Problem: Overstrain (100% chance)
+    Why:     High torque (54.8 Nm) on a tool already used for 231 minutes is overloading the machine.
+    Do:      Replace the insert now and check the feed-rate settings.
+
+#2  Machine 4633    Money at risk: RM 780
+    Problem: Overheating (100% chance)
+    Why:     It is running slowly (1330 rpm) and the process is only 8.3 K warmer than the air, so heat is not escaping. Danger zone: under 1380 rpm and under 8.6 K.
+    Do:      Check coolant level and flow, and clear the cooling fans.
+
+#3  Machine 4232    Money at risk: RM 682
+    Problem: Overheating (88% chance)
+    Why:     It is running slowly (1340 rpm) and the process is only 8.6 K warmer than the air, so heat is not escaping. Danger zone: under 1380 rpm and under 8.6 K.
+    Do:      Check coolant level and flow, and clear the cooling fans.
+
+--- If you have time left ---
+
+#4  Machine 7885    Money at risk: RM 650
+    Problem: Power (100% chance)
+    Why:     It is drawing 9.1 kW. The safe range is 3.5 to 9.0 kW.
+    Do:      Check drive belt tension, supply voltage and spindle bearings.
+
+Low priority: small risk, no check needed today.
+These tools are past 200 minutes, so replace them at the next planned stop.
+    Machine(s): 3027, 586
