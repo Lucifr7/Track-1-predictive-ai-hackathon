@@ -1,0 +1,17 @@
+There are 68 real failures in the 40 mornings. Each damaged test is averaged over 20 repeats.
+
+=== Noisy sensors ===
+                                  Failures prevented  Wasted checks
+No noise                                        53.0            5.0
+2% noise (about 0.04 K, 4 rpm)                  51.2            3.9
+5% noise (about 0.10 K, 9 rpm)                  48.7            7.2
+10% noise (about 0.20 K, 18 rpm)                44.4           13.4
+20% noise (about 0.40 K, 36 rpm)                36.8           32.8
+
+=== Missing readings ===
+A machine with a missing reading is flagged as a sensor fault and is not ranked.
+                                   Failures prevented  Wasted checks
+All sensors working                              53.0            5.0
+5% of machines missing a reading                 50.8            4.7
+10% of machines missing a reading                49.0            4.4
+20% of machines missing a reading                43.6            4.0
