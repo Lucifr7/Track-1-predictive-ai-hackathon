@@ -2,6 +2,8 @@
 
 Team NR, Dormathon 2026, Track 1: Predictive Model Track ("Predict early, decide better").
 
+**Live app:** https://track-1-predictive-ai-hackathon-b42hedqwgmeqnsng834wpc.streamlit.app
+
 A maintenance technician looks after 50 machines and has time to check about 3 of them before the shift starts. This tool reads each machine's sensor readings and gives a short ranked list: which machines to check first, what is likely wrong, why, and what to do.
 
 ## What it does
