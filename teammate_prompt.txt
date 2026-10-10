@@ -1,0 +1,166 @@
+HOW TO USE THIS FILE
+Copy everything below the line into a new chat with your AI assistant.
+It gives the AI the full background of our project and your part of the work.
+
+------------------------------------------------------------------------
+
+I am in a 2-person team in a predictive AI hackathon. Act as my mentor:
+explain things simply, break the work into small steps, and let me try
+things myself before giving full answers. I am a beginner.
+
+Submission is due 11 October 2026 at 9:30 AM. We want to finish today,
+so keep everything simple and focused on what we need for the demo and
+the presentation.
+
+
+1. THE HACKATHON (Track 1: Predictive Model Track)
+
+Theme: "Predict early, decide better." How can AI spot problems before
+they become expensive, and help someone decide what to do about them?
+
+Every solution must show four abilities:
+- Detect:     predict failures or spot unusual patterns.
+- Categorize: say what TYPE of issue it is, not only that something is wrong.
+- Prioritize: rank findings by business impact, cost, risk or urgency.
+- Explain:    give clear reasoning a non-expert can act on.
+
+A strong solution should:
+- solve a specific, real-world problem
+- clearly identify the user who benefits
+- support decision-making, not just prediction
+- cope with noisy or unfamiliar data
+- minimise false alarms
+- clearly communicate recommendations and reasoning
+- demonstrate measurable impact through realistic assumptions
+
+Core judging question:
+"Does your model help someone make a better decision, and can you prove it?"
+
+Advice from the organisers:
+- Do not build a login screen.
+- Do not build the whole product, only what is needed for the demo.
+- Try not to make a dashboard (too common).
+- Stand out and be CLEAR in the pitch.
+
+
+2. OUR IDEA
+
+A "morning work-order list" for a factory maintenance technician.
+The technician has many machines and not enough time to check them all.
+Our tool looks at each machine's readings and gives a short ranked list:
+which machines to check first, what is likely wrong with each one, why
+we think so, and what it costs to ignore it.
+
+It is a ranked to-do list with reasons, not a dashboard.
+
+
+3. THE DATA
+
+Dataset: AI4I 2020 Predictive Maintenance Dataset (free, from the UCI
+Machine Learning Repository). File: ai4i2020.csv, 10,000 rows.
+
+Important: the data is SYNTHETIC. It was generated to imitate real
+factory data; it was not recorded from a real machine. We should say
+this honestly in the pitch. We believe it models a milling machine (a
+machine that spins a cutting tool to shape metal parts), but check the
+dataset description on the UCI page before putting that on a slide.
+
+Each row is one machine run. For the demo we treat rows as different
+machines in a factory. That is our assumption, not a fact of the data.
+
+Readings (what the model looks at):
+- Type: product quality grade, L (low), M (medium) or H (high)
+- Air temperature [K]
+- Process temperature [K]
+- Rotational speed [rpm]
+- Torque [Nm]
+- Tool wear [min]: how long the current cutting tool has been used
+
+Answers (what we predict):
+- Machine failure: 0 = ran fine, 1 = failed
+- Five failure-type columns, each 0 or 1:
+  TWF = Tool wear failure: the cutting tool wore out. In the data this
+        happens when tool wear is around 200 to 250 minutes.
+  HDF = Heat dissipation failure: the machine could not cool down.
+        Rule: process temperature minus air temperature is below 8.6 K
+        AND rotational speed is below 1380 rpm.
+  PWF = Power failure: too little or too much power.
+        Rule: power (torque x rotational speed in rad/s) is below
+        3500 W or above 9000 W.
+  OSF = Overstrain failure: a worn tool pushed too hard.
+        Rule: tool wear x torque is above 11,000 (type L), 12,000
+        (type M) or 13,000 (type H).
+  RNF = Random failure: bad luck, no cause in the readings. We ignore it.
+
+
+4. WHAT WE HAVE FOUND SO FAR
+
+- 339 of 10,000 rows are failures (3.39%). Failures are rare.
+- Because failures are rare, accuracy is a misleading score: a model
+  that always says "no failure" is right 96.61% of the time and catches
+  nothing. We will judge the model with:
+    Recall:    of the real failures, how many did we catch?
+    Precision: of the alarms we raised, how many were real?
+               (low precision = many false alarms)
+- Failure counts by type: heat 115, overstrain 98, power 95,
+  tool wear 46, random 19.
+- Failure rate by product type: L 3.92%, M 2.77%, H 2.09%.
+- 24 failures have two or three causes at once, so the tool should be
+  able to name more than one problem for a machine.
+- 9 failures have no cause recorded, and 18 "random failure" rows are
+  not marked as failures at all. We treat these as quirks of the dataset.
+
+
+5. HOW WE SPLIT THE WORK
+
+My teammate does the data and model side:
+- trains a simple model to predict failure and failure type
+- measures recall and precision
+- produces a failure probability for each machine
+
+I do the decision and pitch side (this is what I need your help with):
+
+Task 1. Define the user.
+  Who is the technician, what do they decide each morning, and what
+  goes wrong for them today without our tool? Keep it to a few sentences.
+
+Task 2. Set the costs.
+  For each of the four failure types (tool wear, heat, power,
+  overstrain), estimate in Malaysian Ringgit (RM):
+    - the cost if the machine fails unexpectedly (repair + downtime)
+    - the cost of a planned check or fix before it fails
+  Also estimate the cost of one false alarm (a check that finds nothing).
+  These are ASSUMPTIONS. Help me choose realistic numbers, write down
+  the reasoning or source behind each one, and label them clearly as
+  assumptions. Do not present made-up numbers as facts.
+
+Task 3. Write the explanation and action for each failure type.
+  One or two plain sentences a technician can act on, based on the
+  rules in section 3. Example:
+  "Likely overheating: the machine is running slowly and the process
+  is only 8 K warmer than the air, so heat is not escaping. Check the
+  cooling system."
+
+Task 4. Work out the impact.
+  A simple calculation of money saved per month, using the costs from
+  Task 2 and the recall and precision my teammate gives me. Show the
+  formula so judges can follow it.
+
+Task 5. Build the presentation slides.
+  Suggested flow: the problem and the user, our idea, how it covers
+  Detect / Categorize / Prioritize / Explain, the demo, how good the
+  model is, the money saved, and honest limitations (synthetic data,
+  assumed costs).
+
+
+6. WHAT I HAND BACK TO MY TEAMMATE
+
+A small table like this, so the model's probabilities can be turned
+into a ranked list (ranking score = failure probability x failure cost):
+
+  Failure type | Cost if it fails (RM) | Cost of planned fix (RM) | Explanation | Recommended action
+
+plus the cost of one false alarm (RM).
+
+
+Start by asking me any questions you need, then help me with Task 1.
