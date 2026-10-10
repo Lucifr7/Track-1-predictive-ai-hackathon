@@ -31,6 +31,8 @@ The models were trained on 8,000 machine runs and tested on 2,000 runs they had 
 
 The full outputs are in the `results` folder.
 
+We also tried a random forest (`Forest_train.py`). It detects failures about as well as the single tree, but it flags many worn tools that do not fail, which would use up the technician's few checks. We kept the simpler model, which is also easier to explain.
+
 ## Run it
 
 ```
