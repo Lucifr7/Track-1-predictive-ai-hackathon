@@ -1,6 +1,8 @@
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 
-from worklist import machines, costs, CHECKS_PER_MORNING, MACHINES_PER_MORNING, MIN_SCORE
+from train import train, test, features, failure_types
+from worklist import machines, costs, score_machines, CHECKS_PER_MORNING, MACHINES_PER_MORNING, MIN_SCORE
 
 # Does the list help? Replay all 40 mornings and compare with what really happened.
 # Each morning Razif checks the top machines on the list (3 at most).
@@ -21,8 +23,21 @@ def saving(m):
     return total if total > 0 else AVERAGE_SAVING
 
 
-# Replay every morning four ways and compare
-def compare_methods(machines):
+# The same list, but scored by random forests with the settings from Forest_train.py
+# (100 trees per problem instead of one). Used to compare the two kinds of model.
+def forest_machines():
+    forests = {}
+    for code in failure_types:
+        forest = RandomForestClassifier(
+            n_estimators=100, max_depth=10, class_weight="balanced", random_state=42
+        )
+        forest.fit(train[features], train[code])
+        forests[code] = forest
+    return score_machines(test, forests)
+
+
+# Replay every morning in several ways and compare
+def compare_methods(machines, forest=None):
     rows = []            # our list, morning by morning
     tool_rule = []       # rule of thumb: check the 3 most worn tools
     rotation = []        # fixed schedule: machines 1-3 today, 4-6 tomorrow, ...
@@ -65,13 +80,25 @@ def compare_methods(machines):
         "Checks done": [total["Checks done"], all_checks, all_checks, all_checks],
         "Failures prevented": [total["Failures prevented"], sum(tool_rule), sum(rotation), random_prevented],
     }, index=["Our list", "Most worn tools first", "Fixed rotation", "Random"])
+
+    # Optional extra row: the list made with random forests
+    if forest is not None:
+        forest_checks = 0
+        forest_prevented = 0
+        for morning, today in forest.groupby("Morning"):
+            orders = today[today["Score"] >= MIN_SCORE].sort_values("Score", ascending=False)
+            checked = orders.head(CHECKS_PER_MORNING)
+            forest_checks += len(checked)
+            forest_prevented += (checked["Machine failure"] == 1).sum()
+        comparison.loc["List made with random forests"] = [forest_checks, forest_prevented]
+
     comparison["Wasted checks"] = comparison["Checks done"] - comparison["Failures prevented"]
 
     return table, comparison.round(1)
 
 
 if __name__ == "__main__":
-    table, comparison = compare_methods(machines)
+    table, comparison = compare_methods(machines, forest_machines())
 
     print("=== Our list, first 10 mornings ===")
     print(table.head(10).to_string())

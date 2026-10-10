@@ -30,9 +30,9 @@ from sklearn.metrics import (
 
 class TeeLogger:
     """
-    Duplicates stdout output to both console and a log file (result.txt).
+    Duplicates stdout output to both console and a log file (Model_2_result.txt).
     """
-    def __init__(self, filename="result.txt"):
+    def __init__(self, filename="Model_2_result.txt"):
         self.terminal = sys.stdout
         self.logfile = open(filename, "w", encoding="utf-8")
 
@@ -421,7 +421,7 @@ def calculate_financial_roi(eval_results, monthly_breakdowns=15):
 # MAIN PIPELINE EXECUTION
 # ==============================================================================
 if __name__ == "__main__":
-    result_file = "result.txt"
+    result_file = "Model_2_result.txt"
     logger = TeeLogger(result_file)
     sys.stdout = logger
 

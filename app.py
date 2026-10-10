@@ -3,7 +3,7 @@ import streamlit as st
 
 from train import test, failure_types
 from worklist import score_machines, morning_list, problems_found, explain, actions, SENSORS
-from simulate import compare_methods
+from simulate import compare_methods, forest_machines
 from robustness import add_noise, noise_table, missing_table
 
 st.set_page_config(page_title="Morning Work Orders", page_icon="🔧")
@@ -106,16 +106,23 @@ with tab_list:
         st.dataframe(answer, hide_index=True, width="stretch")
 
 with tab_proof:
-    st.subheader("40 mornings, replayed four ways")
+    st.subheader("40 mornings, replayed five ways")
     st.write(
         "Every method gets the same 50 machines each morning and at most 3 checks. "
         "Across the 40 mornings, 68 machines really failed."
     )
-    table, comparison = compare_methods(score_machines(test))
-    st.dataframe(comparison, width="stretch")
+
+    @st.cache_data
+    def comparison_table():
+        table, comparison = compare_methods(score_machines(test), forest_machines())
+        return comparison
+
+    st.dataframe(comparison_table(), width="stretch")
     st.write(
         "Our list prevents about three times as many failures as checking the most "
-        "worn tools first, with half the checks."
+        "worn tools first, with half the checks. Making the list with random forests, a more "
+        "complex model, prevents 2 more failures but wastes about ten times as many checks, "
+        "because it flags many worn tools that do not fail."
     )
 
     st.subheader("What if the sensors are noisy?")

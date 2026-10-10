@@ -49,7 +49,8 @@ def explain(problem, m):
 
 # Take a table of machine readings and work out the money at risk for each machine:
 # money at risk = chance of failure x (cost if it fails - cost of a planned fix)
-def score_machines(readings):
+# (models can be swapped, so the same scoring can be tried with a different kind of model)
+def score_machines(readings, models=type_models):
     m = readings.copy()
 
     # A machine with a missing reading cannot be judged. We flag it instead of guessing.
@@ -66,7 +67,7 @@ def score_machines(readings):
         saving = costs[problem]["if_fails"] - costs[problem]["planned_fix"]
         m["Chance of " + problem] = 0.0
         if working.any():
-            chances = type_models[code].predict_proba(m.loc[working, features])[:, 1]
+            chances = models[code].predict_proba(m.loc[working, features])[:, 1]
             m.loc[working, "Chance of " + problem] = chances
         m["Score"] += m["Chance of " + problem] * saving
 

@@ -26,12 +26,13 @@ The models were trained on 8,000 machine runs and tested on 2,000 runs they had 
 | Most worn tools first | 120 | 17 | 103 |
 | Fixed rotation | 120 | 2 | 118 |
 | Random | 120 | 4.1 | 115.9 |
+| List made with random forests | 104 | 55 | 49 |
 
 - With random error added to every sensor reading (10% of each sensor's normal variation), the list still prevents about 44 failures. Machines with a missing reading are flagged as sensor faults and are not ranked.
 
 The full outputs are in the `results` folder.
 
-We also tried a random forest (`Forest_train.py`). It detects failures about as well as the single tree, but it flags many worn tools that do not fail, which would use up the technician's few checks. We kept the simpler model, which is also easier to explain.
+We also tried random forests (`Forest_train.py`), shown in the last row. They prevent 2 more failures but waste about ten times as many checks, because they flag many worn tools that do not fail. We kept the single decision tree, which is also easier to explain.
 
 ## Run it
 
